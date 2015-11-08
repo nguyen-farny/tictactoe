@@ -19,7 +19,17 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="ConsoleTictactoe.cpp" />
     <ClCompile Include="main_v2.cpp" />
+    <ClCompile Include="tictactoe.cpp" />
+    <ClCompile Include="TicTacToeTest.cpp" />
+    <ClCompile Include="unittest.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="ConsoleTictactoe.h" />
+    <ClInclude Include="tictactoe.h" />
+    <ClInclude Include="TicTacToeTest.h" />
+    <ClInclude Include="unittest.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{7D40FEFB-794E-4320-96A7-2DFA882F66E7}</ProjectGuid>

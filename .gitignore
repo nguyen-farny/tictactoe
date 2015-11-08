@@ -50,3 +50,7 @@ Temporary Items
 *.idb
 *.pdb
 *.obj
+*.exe
+*.ilk
+*.opensdf
+
