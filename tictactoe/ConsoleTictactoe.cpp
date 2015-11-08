@@ -17,7 +17,7 @@ void clean(TicTacToeConsole* console)
 
 void session(TicTacToeConsole* console)
 {
-	displayBoard(console->tictactoe.board);
+	displayBoard(getBoard(&console->tictactoe));
 
 	int x = 0;
 	int y = 0;
@@ -25,17 +25,17 @@ void session(TicTacToeConsole* console)
 	int currentPlayer = 0;
 	while (true)
 	{
-		getUserNextMove(console->tictactoe.board, console->tictactoe.player[currentPlayer], &x, &y);
-		tick(console->tictactoe.board, console->tictactoe.player[currentPlayer], x, y);
-		displayBoard(console->tictactoe.board);
+		getUserNextMove(getBoard(&console->tictactoe), getPlayer(&console->tictactoe, currentPlayer), &x, &y);
+		tick(&console->tictactoe, getPlayer(&console->tictactoe, currentPlayer), x, y);
+		displayBoard(getBoard(&console->tictactoe));
 
-		if (checkWin(console->tictactoe.board))
+		if (checkWin(&console->tictactoe))
 		{
 			printf("Vous avez gagne ! ;) ");
 			break;
 		}
 
-		if (checkEnd(console->tictactoe.board))
+		if (checkEnd(&console->tictactoe))
 		{
 			printf("C'est fini , allez dodo! ;) ");
 			break;
@@ -45,16 +45,16 @@ void session(TicTacToeConsole* console)
 	}
 }
 
-void displayBoard(Board b)
+void displayBoard(Board* b)
 {
 	printf("  A B C\n");
 
-	for (int y = 1; y <= b.height; ++y) // x width, y height
+	for (int y = 1; y <= b->height; ++y) // x width, y height
 	{
 		printf("%d ", y);
-		for (int x = 1; x <= b.width; ++x)
+		for (int x = 1; x <= b->width; ++x)
 		{
-			printf("%c ", b.table[xy2i(x, y, b.width, b.height)]);
+			printf("%c ", b->table[xy2i(x, y, b->width, b->height)]);
 		}
 		printf("\n");
 	}
@@ -64,10 +64,10 @@ void displayBoard(Board b)
 
 
 
-void getUserNextMove(Board b, Player p, int *x, int *y)
+void getUserNextMove(Board* b, Player* p, int *x, int *y)
 {
 	char choice[3];
-	printf("%s : Quelle case voulez-vous jouer ? ", p.name);
+	printf("%s : Quelle case voulez-vous jouer ? ", p->name);
 
 	bool valid = false;
 
@@ -75,7 +75,7 @@ void getUserNextMove(Board b, Player p, int *x, int *y)
 	{
 		valid = true;
 
-		scanf_s("%2s", choice);
+		scanf_s("%2s", choice, 2);
 		fseek(stdin, 0, SEEK_END); // vider tout les caracteres pour ne pas les garder pour prochain scanf
 		convertChoiceToXY(choice, x, y);
 
@@ -84,7 +84,7 @@ void getUserNextMove(Board b, Player p, int *x, int *y)
 			printf("Choix invalide ! Quelle case voulez-vous jouer ? ");
 			valid = false;
 		}
-		else if (b.table[xy2i(*x, *y, b.width, b.height)] != ' ')
+		else if (b->table[xy2i(*x, *y, b->width, b->height)] != ' ')
 		{
 			printf("Case occupée ! Quelle case voulez-vous jouer ? ");
 			valid = false;

@@ -33,6 +33,11 @@ void initialize(TicTacToe* tictactoe,
 	bool isComputer2);
 
 void clean(TicTacToe* tictactoe);
+Board* getBoard(TicTacToe* tictactoe);
+Player* getPlayer(TicTacToe* tictactoe, int index);
+bool checkWin(TicTacToe* tictactoe);
+bool checkEnd(TicTacToe* tictactoe);
+void tick(TicTacToe* tictactoe, Player* player, int x, int y);
 
 void initialize(Board* board, int width, int height);
 void clean(Board* tictactoe);
@@ -44,9 +49,6 @@ void clean(Player* tictactoe);
 void convertChoiceToXY(char* choice, int *x, int *y);
 int xy2i(int x, int y, int width, int height);
 
-void tick(Board b, Player p, int x, int y);
-bool checkWin(Board b);
-bool checkEnd(Board b);
 
 
 

@@ -26,6 +26,108 @@ void clean(TicTacToe* tictactoe)
 	clean(&tictactoe->player[1]);
 }
 
+Board* getBoard(TicTacToe* tictactoe)
+{
+	if (tictactoe == 0)
+		return 0;
+
+	return &(tictactoe->board);
+}
+
+Player* getPlayer(TicTacToe* tictactoe, int index)
+{
+	if (tictactoe == 0)
+		return 0;
+
+	return &(tictactoe->player[index]);
+}
+
+bool checkWin(TicTacToe* tictactoe)
+{
+	// horizontal
+	for (int y = 1; y <= getBoard(tictactoe)->height; ++y)
+	{
+		char firstCase = getBoard(tictactoe)->table[xy2i(1, y, getBoard(tictactoe)->width, getBoard(tictactoe)->height)];
+		if (firstCase == ' ')
+			continue;
+
+		bool win = true;
+
+		for (int x = 2; x <= getBoard(tictactoe)->width; ++x)
+		{
+			if (getBoard(tictactoe)->table[xy2i(x, y, getBoard(tictactoe)->width, getBoard(tictactoe)->height)] != firstCase)
+			{
+				win = false;
+				break;
+			}
+		}
+
+		if (win)
+			return true;
+	}
+
+	// vertical
+	for (int x = 1; x <= getBoard(tictactoe)->width; ++x)
+	{
+		char firstCase = getBoard(tictactoe)->table[xy2i(x, 1, getBoard(tictactoe)->width, getBoard(tictactoe)->height)];
+		if (firstCase == ' ')
+			continue;
+
+		bool win = true;
+
+		for (int y = 2; y <= getBoard(tictactoe)->width; ++y)
+		{
+			if (getBoard(tictactoe)->table[xy2i(x, y, getBoard(tictactoe)->width, getBoard(tictactoe)->height)] != firstCase)
+			{
+				win = false;
+				break;
+			}
+		}
+
+		if (win)
+			return true;
+	}
+
+	//diagonals
+	{
+		char firstCase_ul2br = getBoard(tictactoe)->table[xy2i(1, 1, getBoard(tictactoe)->width, getBoard(tictactoe)->height)];
+		bool win_ul2br = true;
+
+		char firstCase_ur2bl = getBoard(tictactoe)->table[xy2i(getBoard(tictactoe)->width, 1, getBoard(tictactoe)->width, getBoard(tictactoe)->height)];
+		bool win_ur2bl = true;
+
+		for (int y = 2; y <= getBoard(tictactoe)->width; ++y)
+		{
+			if (firstCase_ul2br == ' ' || getBoard(tictactoe)->table[xy2i(y, y, getBoard(tictactoe)->width, getBoard(tictactoe)->height)] != firstCase_ul2br)
+				win_ul2br = false;
+
+			if (firstCase_ur2bl == ' ' || getBoard(tictactoe)->table[xy2i(getBoard(tictactoe)->width + 1 - y, y, getBoard(tictactoe)->width, getBoard(tictactoe)->height)] != firstCase_ur2bl)
+				win_ur2bl = false;
+		}
+
+		if (win_ul2br || win_ur2bl)
+			return true;
+	}
+
+	return false;
+}
+
+bool checkEnd(TicTacToe* tictactoe)
+{
+	for (int y = 1; y <= getBoard(tictactoe)->height; ++y)
+	{
+		for (int x = 1; x <= getBoard(tictactoe)->width; ++x)
+		{
+			int i = xy2i(x, y, getBoard(tictactoe)->width, getBoard(tictactoe)->height);
+			if (getBoard(tictactoe)->table[i] == ' ')
+			{
+				return false;
+			}
+		}
+	}
+	return true;
+}
+
 void initialize(Board* board, int width, int height)
 {
 	if (board == NULL)
@@ -86,96 +188,9 @@ int xy2i(int x, int y, int width, int height) // transformer les coordonnées x y
 	return (x - 1)*height + (y - 1);
 }
 
-void tick(Board b, Player p, int x, int y)
+void tick(TicTacToe* tictactoe, Player* player, int x, int y)
 {
-	int i = xy2i(x, y, b.width, b.height);
-	b.table[i] = p.mark;
+	int i = xy2i(x, y, getBoard(tictactoe)->width, getBoard(tictactoe)->height);
+	getBoard(tictactoe)->table[i] = player->mark;
 }
 
-
-bool checkWin(Board b)
-{
-	// horizontal
-	for (int y = 1; y <= b.height; ++y)
-	{
-		char firstCase = b.table[xy2i(1, y, b.width, b.height)];
-		if (firstCase == ' ')
-			continue;
-
-		bool win = true;
-
-		for (int x = 2; x <= b.width; ++x)
-		{
-			if (b.table[xy2i(x, y, b.width, b.height)] != firstCase)
-			{
-				win = false;
-				break;
-			}
-		}
-
-		if (win)
-			return true;
-	}
-
-	// vertical
-	for (int x = 1; x <= b.width; ++x)
-	{
-		char firstCase = b.table[xy2i(x, 1, b.width, b.height)];
-		if (firstCase == ' ')
-			continue;
-
-		bool win = true;
-
-		for (int y = 2; y <= b.width; ++y)
-		{
-			if (b.table[xy2i(x, y, b.width, b.height)] != firstCase)
-			{
-				win = false;
-				break;
-			}
-		}
-
-		if (win)
-			return true;
-	}
-
-	//diagonals
-	{
-		char firstCase_ul2br = b.table[xy2i(1, 1, b.width, b.height)];
-		bool win_ul2br = true;
-
-		char firstCase_ur2bl = b.table[xy2i(b.width, 1, b.width, b.height)];
-		bool win_ur2bl = true;
-
-		for (int y = 2; y <= b.width; ++y)
-		{
-			if (firstCase_ul2br == ' ' || b.table[xy2i(y, y, b.width, b.height)] != firstCase_ul2br)
-				win_ul2br = false;
-
-			if (firstCase_ur2bl == ' ' || b.table[xy2i(b.width + 1 - y, y, b.width, b.height)] != firstCase_ur2bl)
-				win_ur2bl = false;
-		}
-
-		if (win_ul2br || win_ur2bl)
-			return true;
-	}
-
-	return false;
-}
-
-
-bool checkEnd(Board b)
-{
-	for (int y = 1; y <= b.height; ++y)
-	{
-		for (int x = 1; x <= b.width; ++x)
-		{
-			int i = xy2i(x, y, b.width, b.height);
-			if (b.table[i] == ' ')
-			{
-				return false;
-			}
-		}
-	}
-	return true;
-}
