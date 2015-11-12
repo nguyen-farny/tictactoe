@@ -78,9 +78,10 @@ void getUserNextMove(Board* b, Player* p, int *x, int *y)
 
 		scanf_s("%2s", choice, CHOICE_SIZE);
 		fseek(stdin, 0, SEEK_END); // vider tout les caracteres pour ne pas les garder pour prochain scanf
-		convertChoiceToXY(choice, x, y);
+		
+		bool valid = convertChoiceToXY(choice, x, y);
 
-		if (*x == 0 || *y == 0)
+		if (!valid)
 		{
 			printf("Choix invalide ! Quelle case voulez-vous jouer ? ");
 			valid = false;

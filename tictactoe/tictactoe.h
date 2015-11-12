@@ -46,7 +46,7 @@ void initialize(Player* player, char* name, char mark, bool isComputeur);
 void clean(Player* tictactoe);
 
 
-void convertChoiceToXY(char* choice, int *x, int *y);
+bool convertChoiceToXY(char* choice, int *x, int *y);
 int xy2i(int x, int y, int width, int height);
 
 

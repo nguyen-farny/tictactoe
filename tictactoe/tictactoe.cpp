@@ -163,24 +163,30 @@ void clean(Player* player)
 	// nothing to do
 }
 
-void convertChoiceToXY(char* choice, int *x, int *y)
+bool convertChoiceToXY(char* choice, int *x, int *y)
 {
-	*x = 0;
-	*y = 0;
+	bool x_valid = false;
+	bool y_valid = false;
 
-	if (choice[0] == 'A')
-		*x = 1;
-	else if (choice[0] == 'B')
-		*x = 2;
-	else if (choice[0] == 'C')
-		*x = 3;
-
-	if (choice[1] == '1')
-		*y = 1;
-	else if (choice[1] == '2')
-		*y = 2;
-	else if (choice[1] == '3')
-		*y = 3;
+	switch (choice[0])
+	{
+	case 'A':
+	case 'B':
+	case 'C':
+		x_valid = true;
+		*x = choice[0] - 'A' + 1;
+	}
+	
+	switch (choice[1])
+	{
+	case '1':
+	case '2':
+	case '3':
+		y_valid = true;
+		*y = choice[1] - '0';
+	}
+	
+	return x_valid && y_valid;
 }
 
 int xy2i(int x, int y, int width, int height) // transformer les coordonnées x y dans le tableau 
