@@ -41,7 +41,7 @@ void TestTicTacToe()
 	tick(&tictactoe, getPlayer(&tictactoe, 0), 2, 2);
 	assertFalse(checkWin(&tictactoe), "Joueur 1 ne gagne pas encore");
 	tick(&tictactoe, getPlayer(&tictactoe, 0), 3, 3);
-	assertTrue(checkWin(&tictactoe), "Joueur 1 gagne en diagonale (de haut gauche à bas droit) ");
+	assertTrue(checkWin(&tictactoe), "Joueur 1 gagne en diagonale (de haut gauche a bas droit) ");
 
 	// new game
 	clean(&tictactoe);
@@ -51,7 +51,7 @@ void TestTicTacToe()
 	tick(&tictactoe, getPlayer(&tictactoe, 0), 2, 2);
 	assertFalse(checkWin(&tictactoe), "Joueur 1 ne gagne pas encore");
 	tick(&tictactoe, getPlayer(&tictactoe, 0), 3, 1);
-	assertTrue(checkWin(&tictactoe), "Joueur 1 gagne en diagonale (de haut droit à bas gauche)");
+	assertTrue(checkWin(&tictactoe), "Joueur 1 gagne en diagonale (de haut droit a bas gauche)");
 
 	// new game
 	clean(&tictactoe);

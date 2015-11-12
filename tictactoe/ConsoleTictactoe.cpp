@@ -66,7 +66,8 @@ void displayBoard(Board* b)
 
 void getUserNextMove(Board* b, Player* p, int *x, int *y)
 {
-	char choice[3];
+	const int CHOICE_SIZE = 3;
+	char choice[CHOICE_SIZE];
 	printf("%s : Quelle case voulez-vous jouer ? ", p->name);
 
 	bool valid = false;
@@ -75,7 +76,7 @@ void getUserNextMove(Board* b, Player* p, int *x, int *y)
 	{
 		valid = true;
 
-		scanf_s("%2s", choice, 2);
+		scanf_s("%2s", choice, CHOICE_SIZE);
 		fseek(stdin, 0, SEEK_END); // vider tout les caracteres pour ne pas les garder pour prochain scanf
 		convertChoiceToXY(choice, x, y);
 
